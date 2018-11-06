@@ -1,0 +1,59 @@
+Setting Up a Redux Project With Create-React-App
+=================================================
+Origin: https://medium.com/backticks-tildes/setting-up-a-redux-project-with-create-react-app-e363ab2329b8
+
+npx create-react-app redux-cra
+cd redux-cra
+yarn start
+
+For the project to build, the following files must exist with exact filenames:
+    public/index.html is the page template;
+    src/index.js is the JavaScript entry point.
+
+yarn add redux react-redux and redux-thunk
+    - redux is the core that performs the magic 
+    - By default, React bindings are not included in Redux. With react-redux , these bindings will be explicitly installed.
+    - redux-thunk is a middleware that allows you to write action creators (we’ll get to this in a bit) that return a function. The returned function receives two store (we’ll also talk more on this) methods: dispatch and getState as parameters. 
+
+    Actions are payloads of information which send data to the store. Essentially, they are JavaScript objects. What makes a particular action unique is the type key defined in it. An action must have a type key. The type indicates the type of action being performed.
+
+    "action creators" are functions that create actions — they simply return actions. For manageability and ease, redux-thunk allows you to write them as functions that return a function.
+
+create a sample action creators: ./src/actions/simpleAction.js
+
+    "Reducers" describe how the application state changes with respect to actions dispatched to the redux store.
+
+create a sample Reducers: ./src/reducers/simpleReducer.js
+
+    Using the combineReducers utility from redux, you can combine all reducers in the app into a single index reducer. 
+
+create a sample index reducer: ./src/reducers/rootReducer.js
+
+    Redux Store:
+        - A redux application needs only one store, doing the following:
+        - Holds application state
+        - Allows access to state via getState(). The getState method returns the current state tree of your app.
+        - Allows state to be updated via dispatch(action) . The dispatch method “dispatches” an action, consequently triggering a state change.
+        - Registers listeners via subscribe(listener) . The subscribe(listener) adds a change listener. Similar to Flux’s change listener methods.
+        - Handles unregistering of listeners via the function returned by subscribe(listener).
+ 
+yarn start
+
+update ./src/App.js to connect App component to the store using the connect() React binding from react-redux
+add import { simpleAction } from './actions/SimpleAction' in ./src/App.js
+
+    connect() takes in two parameters: mapStateToProps and mapDispatchToProps
+
+add mapDispatchToProps & mapDispatchToProps in ./src/App.js
+
+    The mapStateToProps parameter of connect allows the React component to subscribe to redux state updates.
+
+    The mapDispatchToProps parameter of connect can either be:
+        - an object of action creators wrapped into a dispatch.
+        - a function with a dispatch parameter. The function should return an object that uses dispatch to bind action creators. Alternatively, you can use the bindActionCreators() helper from redux
+
+Passing mapStateToProps and mapDispatchToProps as connect() parameters merges the action creators and store updates to the component’s props.
+
+add a button to test sample app
+
+further: redux-actions and redux thunk demo code...
